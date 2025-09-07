@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Heart ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #000000 60%, #ff4b8b 100%);
+      overflow: hidden;
+    }
+
+    .heart {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      background: #ff1e56;
+      transform: rotate(-45deg) scale(0);
+      animation: popIn 2s ease forwards, beat 1.2s infinite 2.2s;
+      cursor: pointer;
+      box-shadow: 0 0 40px rgba(255, 0, 120, 0.9);
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: #ff1e56;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -75px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 75px;
+      top: 0;
+    }
+
+    @keyframes popIn {
+      0% { transform: rotate(-45deg) scale(0); opacity: 0; }
+      50% { transform: rotate(-45deg) scale(1.2); opacity: 1; }
+      100% { transform: rotate(-45deg) scale(1); }
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: rotate(-45deg) scale(1); }
+      50% { transform: rotate(-45deg) scale(1.15); }
+    }
+  </style>
+</head>
+<body>
+  <div class="heart" onclick="window.location.href='proposal.html'"></div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      height: 100vh;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      font-family: 'Brush Script MT', cursive;
+      color: #ff4da6;
+      text-shadow: 0 0 20px #ff66b2, 0 0 40px #ff1a8c, 0 0 80px #ff3399;
+      animation: fadeInScale 3s ease-in-out, glow 2s ease-in-out infinite alternate;
+      position: absolute;
+      top: 40%;
+      text-align: center;
+      z-index: 2;
+    }
+
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.5); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ff66b2, 0 0 20px #ff3399; }
+      to { text-shadow: 0 0 30px #ff1a8c, 0 0 60px #ff3399; }
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎆 Thanks for Accepting It ❤️</h1>
+  <canvas id="fireworks"></canvas>
+
+  <script>
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    class Particle {
+      constructor(x, y, color, speed, angle) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.speed = speed;
+        this.angle = angle;
+        this.radius = Math.random() * 3 + 2;
+        this.opacity = 1;
+        this.gravity = 0.05;
+        this.friction = 0.98;
+      }
+
+      update() {
+        this.speed *= this.friction;
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed + this.gravity;
+        this.opacity -= 0.015;
+      }
+
+      draw(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${this.color},${this.opacity})`;
+        ctx.fill();
+      }
+    }
+
+    class Firework {
+      constructor(x, y) {
+        this.particles = [];
+        const colors = [
+          "255,77,166",  
+          "255,255,102",  
+          "102,255,178",  
+          "102,178,255",  
+          "255,102,102"   
+        ];
+
+        for (let i = 0; i < 80; i++) {
+          const angle = Math.random() * 2 * Math.PI;
+          const speed = Math.random() * 6 + 2;
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          this.particles.push(new Particle(x, y, color, speed, angle));
+        }
+      }
+
+      update() {
+        this.particles.forEach(p => p.update());
+      }
+
+      draw(ctx) {
+        this.particles.forEach(p => p.draw(ctx));
+      }
+
+      done() {
+        return this.particles.every(p => p.opacity <= 0);
+      }
+    }
+
+    let fireworks = [];
+
+    function animate() {
+      ctx.fillStyle = "rgba(0,0,0,0.2)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      fireworks.forEach((f, i) => {
+        f.update();
+        f.draw(ctx);
+        if (f.done()) {
+          fireworks.splice(i, 1);
+        }
+      });
+      requestAnimationFrame(animate);
+    }
+
+    function randomFirework() {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height / 2;
+      fireworks.push(new Firework(x, y));
+    }
+
+    setInterval(randomFirework, 800);
+    animate();
+
+    window.onresize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+  </script>
+</body>
+</html>

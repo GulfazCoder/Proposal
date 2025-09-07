@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bouquet for You 🌹</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: black;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #ff99cc;
+      font-family: 'Brush Script MT', cursive;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-shadow: 0 0 20px #ff4da6;
+      animation: fadeIn 3s ease-in-out;
+    }
+
+    .bouquet {
+      position: relative;
+      width: 300px;
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      animation: growBouquet 2s ease-in-out;
+    }
+
+    /* Each flower */
+    .flower {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      animation: popIn 1s ease forwards;
+      opacity: 0;
+    }
+
+    .petal {
+      position: absolute;
+      width: 40px;
+      height: 60px;
+      background: radial-gradient(circle at 30% 30%, #ff4da6, #b30059);
+      border-radius: 50%;
+      transform-origin: bottom center;
+    }
+
+    .center {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      width: 30px;
+      height: 30px;
+      background: yellow;
+      border-radius: 50%;
+      box-shadow: 0 0 10px gold;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes growBouquet {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Stems tied together */
+    .stem {
+      position: absolute;
+      bottom: 0;
+      width: 8px;
+      height: 250px;
+      background: linear-gradient(green, darkgreen);
+      border-radius: 5px;
+    }
+
+    .ribbon {
+      position: absolute;
+      bottom: 80px;
+      width: 60px;
+      height: 20px;
+      background: #ff1a8c;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ff66b2;
+    }
+
+    /* Button */
+    .love-button {
+      margin-top: 40px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 30px;
+      background: #ff4da6;
+      color: white;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      box-shadow: 0 0 20px #ff66b2;
+      transition: 0.3s ease;
+    }
+
+    .love-button:hover {
+      background: #ff1a8c;
+      box-shadow: 0 0 30px #ff3399;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>💐 A Bouquet of Love Just for You 💐</h1>
+  
+  <div class="bouquet" id="bouquet">
+    <!-- stems -->
+    <div class="stem" style="left: 100px;"></div>
+    <div class="stem" style="left: 120px;"></div>
+    <div class="stem" style="left: 140px;"></div>
+    <div class="stem" style="left: 160px;"></div>
+    <div class="stem" style="left: 180px;"></div>
+    <div class="ribbon"></div>
+  </div>
+
+  <button class="love-button" onclick="nextPage()">Do you also love me? ❤️</button>
+
+  <script>
+    function createFlower(x, y, delay) {
+      const bouquet = document.getElementById('bouquet');
+      const flower = document.createElement('div');
+      flower.className = 'flower';
+      flower.style.left = x + 'px';
+      flower.style.bottom = y + 'px';
+      flower.style.animationDelay = delay + 's';
+
+      // Create petals
+      for (let i = 0; i < 6; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.style.transform = `rotate(${i * 60}deg) translateY(-20px)`;
+        flower.appendChild(petal);
+      }
+
+      // Center
+      const center = document.createElement('div');
+      center.className = 'center';
+      flower.appendChild(center);
+
+      bouquet.appendChild(flower);
+    }
+
+    const positions = [
+      [80, 180], [140, 180], [200, 180],
+      [60, 230], [120, 230], [180, 230], [240, 230],
+      [100, 280], [160, 280], [220, 280]
+    ];
+
+    positions.forEach((pos, i) => {
+      createFlower(pos[0], pos[1], i * 0.4);
+    });
+
+    function nextPage() {
+      window.location.href = "answer.html";
+    }
+  </script>
+</body>
+</html>
